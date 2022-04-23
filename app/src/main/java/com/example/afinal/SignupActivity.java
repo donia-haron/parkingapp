@@ -79,18 +79,22 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 pattern.setVisibility(View.VISIBLE);
+                Log.i("in beforeTextChanged","beforeTextChanged");
                 }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // get the password when we start typing
+                pattern.setVisibility(View.VISIBLE);
+                Log.i("outt beforeTextChanged","beforeTextChanged");
                 String passwordx = password.getText().toString();
                 validatepass(passwordx);
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                pattern.setVisibility(View.GONE);
+
+
             }
         });
 

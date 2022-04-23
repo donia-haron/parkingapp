@@ -50,9 +50,9 @@ import java.util.Map;
 public class HomeActivity extends AppCompatActivity {
 
     final ArrayList<parkingspace> n = new ArrayList<>();
-    String URL = R.string.url+"/parkingspace";
-    String URL1 = R.string.url+"/parkingspace/category/";
-    String URL2 = R.string.url+"/registration/";
+    String URL = "http://192.168.220.207:8000/api/parkingspace";
+    String URL1 = "http://192.168.220.207:8000/api/parkingspace/category/";
+    String URL2 = "http://192.168.220.207:8000/api/registration/";
     GridView listView;
     TextView textView;
     ImageView sidebar;
@@ -98,12 +98,12 @@ public class HomeActivity extends AppCompatActivity {
                     }
 
                 }
-if (flag==0){
+                if (flag == 0) {
 
-    Toast.makeText(getApplicationContext(), "sorry no parking space with that name ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "sorry no parking space with that name ", Toast.LENGTH_SHORT).show();
 
 
-}
+                }
                 return false;
             }
 
@@ -291,7 +291,7 @@ if (flag==0){
 
     private void postregData(String regid, String status) {
         // url to post our data
-        String url = R.string.url+"/registration/updatestatus/";
+        String url = "http://192.168.220.207:8000/api/registration/updatestatus/";
 
         RequestQueue queue = Volley.newRequestQueue(HomeActivity.this);
 
@@ -331,7 +331,7 @@ if (flag==0){
 
     private void postslotData(String status, String slott, String parking_id) {
         // url to post our data
-        String url = R.string.url+"/parkingslot/updatestatus/";
+        String url = "http://192.168.220.207:8000/api/parkingslot/updatestatus/";
 
         RequestQueue queue = Volley.newRequestQueue(HomeActivity.this);
         Log.i("Sloottt", slott);

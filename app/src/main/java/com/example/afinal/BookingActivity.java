@@ -43,7 +43,7 @@ import java.util.ArrayList;
 
 public class BookingActivity extends AppCompatActivity {
     final ArrayList<String> n = new ArrayList<>();
-    String URL = R.string.url+"/parkingslot/parking/";
+    String URL = "http://192.168.220.207:8000/api/parkingslot/parking/";
     int id, checkin, checkout, checkinm, checkoutm;
     String dateday, day;
     LottieAnimationView animation;
@@ -81,7 +81,7 @@ public class BookingActivity extends AppCompatActivity {
     public void parseApiDataa() {
         String iduser;
 
-        String URL = R.string.url+"/registration/user/";
+        String URL = "http://192.168.220.207:8000/api/registration/user/";
         SharedPreferences sh = this.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
 
         iduser = sh.getString("id", "");
@@ -156,7 +156,7 @@ public class BookingActivity extends AppCompatActivity {
 
     public void parseApiDataslotlevel() {
         final ArrayList<String> category = new ArrayList<>();
-        String URL = R.string.url+"/parkingslot/level/";
+        String URL = "http://192.168.220.207:8000/api/parkingslot/level/";
         StringRequest s = new StringRequest(Request.Method.GET, URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -177,9 +177,9 @@ public class BookingActivity extends AppCompatActivity {
 
                         GridView listView = (GridView) findViewById(R.id.listt);
                         listView.setAdapter(adapter);
-                        ViewGroup.LayoutParams lp = listView.getLayoutParams();
-                        lp.height = (category.size() * 120);
-                        listView.setLayoutParams(lp);
+//                        ViewGroup.LayoutParams lp = listView.getLayoutParams();
+//                        lp.height = (category.size() * 120);
+//                        listView.setLayoutParams(lp);
 
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -221,8 +221,8 @@ public class BookingActivity extends AppCompatActivity {
 
     public void parseApileveldata(String level) {
 
-final ArrayList<String> levels = new ArrayList<>();
-        String URL = R.string.url+"/parkingslot/parking/level/";
+        final ArrayList<String> levels = new ArrayList<>();
+        String URL = "http://192.168.220.207:8000/api/parkingslot/parking/level/";
         StringRequest s = new StringRequest(Request.Method.GET, URL + id + "/" + level, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -234,7 +234,7 @@ final ArrayList<String> levels = new ArrayList<>();
                             JSONObject slot = x.getJSONObject(i);
                             Log.i("parkingslot/parking/level/", String.valueOf(slot));
                             levels.add(slot.getString("name"));
-
+Log.i("sssssssssssssssssssssss",slot.getString("name"));
 
                         }
 
@@ -353,7 +353,7 @@ final ArrayList<String> levels = new ArrayList<>();
 
 
     public void parseApiDataparking() {
-        String URL = R.string.url+"/parkingspace/";
+        String URL = "http://192.168.220.207:8000/api/parkingspace/";
         StringRequest s = new StringRequest(Request.Method.GET, URL + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

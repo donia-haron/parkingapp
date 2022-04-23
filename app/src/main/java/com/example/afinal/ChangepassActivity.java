@@ -93,7 +93,7 @@ public class ChangepassActivity extends AppCompatActivity {
     }
 
     public void change(View V) {
-        String URL = R.string.url+"/user/";
+        String URL = "http://192.168.220.207:8000/api/user/";
         SharedPreferences sh = this.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE);
         String id = sh.getString("id", "");
         Log.i("iddd", id);

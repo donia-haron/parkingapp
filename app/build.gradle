@@ -23,12 +23,14 @@ android {
         }
         python {
             pip {
-
+                install "pymysql"
                 install "ArabicOcr== 1.1.6"
-             
+                install "scikit-learn"
                 install "opencv-python"
-
+                install "pandas"
                 install "Importio== 2.0.2"
+                install "mysql-connector-python"
+                install "urllib3"
 
               }
         }

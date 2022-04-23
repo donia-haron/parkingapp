@@ -16,6 +16,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -51,6 +54,7 @@ public class PredictionActivity extends AppCompatActivity {
     TextView d5;
     TextView d6;
     String select;
+    String fDate;
     Date td0;
     Date td1;
     Date td2;
@@ -67,7 +71,7 @@ public class PredictionActivity extends AppCompatActivity {
     int flag = 0;
     PieChart pieChart;
     PieData pieData;
-    String checkin, checkout;
+    String checkin = "AM", checkout = "AM";
     List<PieEntry> pieEntryList = new ArrayList<>();
 
     @Override
@@ -77,19 +81,7 @@ public class PredictionActivity extends AppCompatActivity {
 
         //piechart
         pieChart = findViewById(R.id.pieChart);
-        pieChart.setUsePercentValues(true);
-        pieChart.getDescription().setEnabled(false);
-        pieEntryList.add(new PieEntry(10, "Avaliable"));
-        pieEntryList.add(new PieEntry(5, "Unavalable"));
-        int[] productColors = {Color.rgb(222, 94, 118), Color.rgb(5, 10, 48)};
-        PieDataSet pieDataSet = new PieDataSet(pieEntryList, "Parking slots");
-        pieDataSet.setColors(ColorTemplate.createColors(productColors));
-        pieData = new PieData(pieDataSet);
-        pieData.setValueTextSize(15);
-        pieData.setValueTextColor(Color.WHITE);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
-        pieChart.setDrawHoleEnabled(false);
+
 
         book = (TextView) findViewById(R.id.book);
         checkouttext = (TextView) findViewById(R.id.checkouttext);
@@ -141,7 +133,7 @@ public class PredictionActivity extends AppCompatActivity {
         d6.setText(new SimpleDateFormat("EE", Locale.ENGLISH).format(td6.getTime()));
 //1 select day 1 change color  2 time now bra7tooo 3 3 button hide 4444444444444444444 predictionnnnnnnnnnnnnn
 
-
+        fDate = today.getText().toString();
         Calendar calendar2 = Calendar.getInstance();
         now = calendar2.getTime();
         hour = now.getHours();
@@ -149,8 +141,8 @@ public class PredictionActivity extends AppCompatActivity {
         timeButton = findViewById(R.id.timeButton);
         timeButton2 = findViewById(R.id.checkoutButton);
         timeButton2.setVisibility(View.INVISIBLE);
-       select = items[0];
-    dayyy=today.getText().toString();
+        select = items[0];
+        dayyy = today.getText().toString();
 
 
     }
@@ -173,8 +165,8 @@ public class PredictionActivity extends AppCompatActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = format.parse(select);
-            String fDate = (new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime()));
-            Log.i("datttttttttttttttttttttttttttttttt",fDate);
+            fDate = (new SimpleDateFormat("EE", Locale.ENGLISH).format(date.getTime()));
+            Log.i("datttttttttttttttttttttttttttttttt", fDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -196,9 +188,9 @@ public class PredictionActivity extends AppCompatActivity {
                 Calendar calendar2 = Calendar.getInstance();
                 calendar2.add(Calendar.HOUR_OF_DAY, 2);
                 Date next = calendar2.getTime();
-                int nextdate= next.getHours();
-                if (next.getHours()==0){
-nextdate=24;
+                int nextdate = next.getHours();
+                if (next.getHours() == 0) {
+                    nextdate = 24;
 
                 }
 
@@ -209,19 +201,19 @@ nextdate=24;
                         book.setVisibility(View.VISIBLE);
                     }
 
-                    if (hour > Calendar.getInstance().getTime().getHours() && hour<next.getHours()) {
+                    if (hour > Calendar.getInstance().getTime().getHours() && hour < next.getHours()) {
                         checkin = "AM";
                         if (hour > 12) {
                             hour1 = hour - 12;
                             checkin = "pm";
                         }
                         timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d", hour1, minute) + " " + checkin);
+                        Log.i("checkinintimebuttonnnn", checkin);
                         Log.i("hour", String.valueOf(hour));
                         flag += 1;
                         timeButton2.setVisibility(View.VISIBLE);
                         checkouttext.setVisibility(View.VISIBLE);
-                    }
-                    else if (Calendar.getInstance().getTime().getHours() > next.getHours()) {
+                    } else if (Calendar.getInstance().getTime().getHours() > next.getHours()) {
                         Log.i("hehee", String.valueOf(nextdate));
                         if (hour <= nextdate) {
 
@@ -292,27 +284,27 @@ nextdate=24;
                     hour3 = hour2 - 12;
                     checkout = "pm";
                 }
+                Log.i("checkinnnnnnnnnnnnnn", checkin);
+                Log.i("checkoutnnnnnnnnnnnnnnnnnnnnnnn", checkout);
+
                 if (hour2 > hour) {
                     Log.i("hour222iffffffff2222222222", String.valueOf(hour2));
 
 
                     timeButton2.setText(String.format(Locale.getDefault(), "%02d:%02d", hour3, minute2) + " " + checkout);
                     flag += 1;
-
+                    chart();
                     predict.setVisibility(View.VISIBLE);
                     pieChart.setVisibility(View.VISIBLE);
 
 
-                } else if (!checkin.equals(checkout)) {
+                } else {
 
                     timeButton2.setText(String.format(Locale.getDefault(), "%02d:%02d", hour3, minute2) + " " + checkout);
                     flag += 1;
+                    chart();
                     predict.setVisibility(View.VISIBLE);
                     pieChart.setVisibility(View.VISIBLE);
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "checkout hour must exceed checkin hour", Toast.LENGTH_SHORT).show();
-
                 }
 
             }
@@ -327,17 +319,59 @@ nextdate=24;
 
     }
 
+    public void chart() {
+
+        int id = (int) getIntent().getSerializableExtra("parkingspaceidd");
+        int capacity= (int) getIntent().getSerializableExtra("capacity");
+        Log.i("bbbbbbbbbbhourinoncreatee", String.valueOf(hour));
+        Log.i("bbbbbbbbbbhourinoncreatee", String.valueOf(capacity));
+        if (!Python.isStarted()) {
+            Python.start(new AndroidPlatform(this));
+        } else {
+            Log.i("nelsaaa", "nelaa");
+
+        }
+if (fDate==null){
+    fDate=dayyy;
+
+}
+
+
+        // 2. Obtain the python instance
+        Python py = Python.getInstance();
+        PyObject sys = py.getModule("pred");
+
+        PyObject res = sys.callAttr("main", id, fDate, hour);
+        String predictionn = String.valueOf(res);
+        Log.i("outputtttttttttttttttt", String.valueOf(predictionn));
+int x=Integer.parseInt(predictionn.toString());
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieEntryList.add(new PieEntry(capacity-x, "Avaliable"));
+        pieEntryList.add(new PieEntry(x, "Unavaliable"));
+        int[] productColors = {Color.rgb(222, 94, 118), Color.rgb(5, 10, 48)};
+        PieDataSet pieDataSet = new PieDataSet(pieEntryList, "Parking slots");
+        pieDataSet.setColors(ColorTemplate.createColors(productColors));
+        pieData = new PieData(pieDataSet);
+        pieData.setValueTextSize(15);
+        pieData.setValueTextColor(Color.WHITE);
+        pieChart.setData(pieData);
+        pieChart.invalidate();
+        pieChart.setDrawHoleEnabled(false);
+
+    }
+
     public void booking(View V) {
         Intent intent = new Intent(getApplicationContext(), BookingActivity.class);
         int id = (int) getIntent().getSerializableExtra("parkingspaceidd");
-        Log.i("afhmmmmm",String.valueOf(id));
-        intent.putExtra("parkingspaceid",id);
-        intent.putExtra("checkinhour",hour);
-        intent.putExtra("checkouthour",hour2);
-        intent.putExtra("checkinmin",minute);
-        intent.putExtra("checkoutmin",minute2);
-        intent.putExtra("daydate",select);
-        intent.putExtra("day",dayyy);
+        Log.i("afhmmmmm", String.valueOf(id));
+        intent.putExtra("parkingspaceid", id);
+        intent.putExtra("checkinhour", hour);
+        intent.putExtra("checkouthour", hour2);
+        intent.putExtra("checkinmin", minute);
+        intent.putExtra("checkoutmin", minute2);
+        intent.putExtra("daydate", select);
+        intent.putExtra("day", dayyy);
         startActivity(intent);
     }
 }

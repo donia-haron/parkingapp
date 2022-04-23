@@ -35,7 +35,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="15dp"
                 android:gravity="center_horizontal"
-                android:text="Park My Car"
+                android:text="GO N PARK"
                 android:textColor="@color/white"
                 android:textSize="40dp" />
         </LinearLayout>

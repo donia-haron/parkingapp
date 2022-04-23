@@ -30,17 +30,18 @@ public class ConfirmActivity extends AppCompatActivity {
     TextView date;
     TextView position;
 
-    String URL1 = R.string.url+"/parkingspace/";
-    String URL = R.string.url+"/user/car/";
+    String URL1 = "http://192.168.220.207:8000/api/parkingspace/";
+    String URL = "http://192.168.220.207:8000/api/user/car/";
     int parkingid, checkin, checkout, checkinm, checkoutm;
-    String dateday, day,slott;
+    String dateday, day, slott;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
         Intent intent = getIntent();
         id = intent.getStringExtra("slot");
-     parkingid = (int) getIntent().getSerializableExtra("parkingspaceid");
+        parkingid = (int) getIntent().getSerializableExtra("parkingspaceid");
         checkin = (int) getIntent().getSerializableExtra("checkinhour");
         checkout = (int) getIntent().getSerializableExtra("checkouthour");
         checkinm = (int) getIntent().getSerializableExtra("checkinmin");
@@ -48,11 +49,11 @@ public class ConfirmActivity extends AppCompatActivity {
         slott = (String) getIntent().getSerializableExtra("slot");
         dateday = (String) getIntent().getSerializableExtra("daydate");
         day = (String) getIntent().getSerializableExtra("day");
-Log.i("confirmmm",String.valueOf(parkingid));
+        Log.i("confirmmm", String.valueOf(parkingid));
         user = (TextView) findViewById(R.id.name);
         position = (TextView) findViewById(R.id.position);
         time = (TextView) findViewById(R.id.time);
-        time.setText(checkin+":"+checkinm);
+        time.setText(checkin + ":" + checkinm);
 
         slot = (TextView) findViewById(R.id.slot);
         slot.setText(slott);
@@ -60,8 +61,8 @@ Log.i("confirmmm",String.valueOf(parkingid));
         date.setText(dateday);
         car = (TextView) findViewById(R.id.carnum);
 
-parseApicar();
-parseApiparking();
+        parseApicar();
+        parseApiparking();
     }
 
 
@@ -123,7 +124,7 @@ parseApiparking();
                         for (int i = 0; i < x.length(); i++) {
                             JSONObject parkingspace = x.getJSONObject(i);
                             Log.i("parkingspace", String.valueOf(parkingspace.getString("name")));
-position.setText(parkingspace.getString("name"));
+                            position.setText(parkingspace.getString("name"));
 
 
                         }
@@ -150,18 +151,16 @@ position.setText(parkingspace.getString("name"));
         Log.i("slot", id);
         Intent intent = new Intent(getApplicationContext(), Confirm2Activity.class);
 
-        intent.putExtra("parkingspaceid",(int) getIntent().getSerializableExtra("parkingspaceid"));
-        intent.putExtra("checkinhour",checkin);
-        intent.putExtra("checkouthour",checkout);
-        intent.putExtra("checkinmin",checkinm);
-        intent.putExtra("checkoutmin",checkoutm);
-        intent.putExtra("daydate",dateday);
-        intent.putExtra("day",day);
-        intent.putExtra("id",id);
-        intent.putExtra("parkingid",parkingid);
-        intent.putExtra("carnumber",car.getText());
-
-
+        intent.putExtra("parkingspaceid", (int) getIntent().getSerializableExtra("parkingspaceid"));
+        intent.putExtra("checkinhour", checkin);
+        intent.putExtra("checkouthour", checkout);
+        intent.putExtra("checkinmin", checkinm);
+        intent.putExtra("checkoutmin", checkoutm);
+        intent.putExtra("daydate", dateday);
+        intent.putExtra("day", day);
+        intent.putExtra("id", id);
+        intent.putExtra("parkingid", parkingid);
+        intent.putExtra("carnumber", car.getText());
 
 
         startActivity(intent);

@@ -90,66 +90,14 @@ public class TestActivity extends AppCompatActivity {
 
         }
 
+        // 2. Obtain the python instance
+        Python py = Python.getInstance();
+        PyObject sys = py.getModule("pred");
 
-        this.imageView = (ImageView) this.findViewById(R.id.imageView1);
-        Button photoButton = (Button) this.findViewById(R.id.button1);
-        photoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_PERMISSION_CODE);
-                } else {
-                    Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                }
-            }
-        });
-
-    }
+        PyObject res =sys.callAttr("main");
+        Log.i("outputtttttttttttttttt", String.valueOf(res));
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_CAMERA_PERMISSION_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "camera permission granted", Toast.LENGTH_LONG).show();
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-            } else {
-                Toast.makeText(this, "camera permission denied", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap photo = (Bitmap) data.getExtras().get("data");
-
-
-            imageView.setImageBitmap(photo);
-           ImageString= getStringImage(photo);
-
-            // 2. Obtain the python instance
-            Python py = Python.getInstance();
-            PyObject sys = py.getModule("scan");
-
-        PyObject res =sys.callAttr("main",ImageString);
-         Log.i("outputtttttttttttttttt", String.valueOf(res));
-
-
-        }
-    }
-    public String getStringImage(Bitmap photo){
-        Log.i("imag string","awl elfun ");
-        ByteArrayOutputStream output=new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.PNG,100,output);
-        Log.i("imag string","nos elfun ");
-        byte [] imageByte=output.toByteArray();
-        String encodeImage=android.util.Base64.encodeToString(imageByte, Base64.DEFAULT);
-       return encodeImage;
     }
 }
 

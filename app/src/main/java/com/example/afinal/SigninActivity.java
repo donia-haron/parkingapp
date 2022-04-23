@@ -34,7 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SigninActivity extends AppCompatActivity {
-    String URL = R.string.url+"/useremail/";
+    String URL = "http://192.168.220.207:8000/api/useremail/";
     EditText email;
     EditText password;
     private FirebaseAuth mAuth;
@@ -69,7 +69,7 @@ public class SigninActivity extends AppCompatActivity {
     }
 
     public void signup(View v) {
-        Intent i = new Intent(getApplicationContext(), ProfileActivity.class);
+        Intent i = new Intent(getApplicationContext(), SignupActivity.class);
         startActivity(i);
     }
 
@@ -105,21 +105,9 @@ public class SigninActivity extends AppCompatActivity {
                                             "Login failed!!",
                                             Toast.LENGTH_LONG)
                                             .show();
-
-
                                 }
                             }
                         });
-
-
-
-
-
-
-
-
-
-
         StringRequest s = new StringRequest(Request.Method.GET, URL + email.getText(), new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -134,6 +122,7 @@ public class SigninActivity extends AppCompatActivity {
                                 SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref",MODE_PRIVATE);
                                 SharedPreferences.Editor myEdit = sharedPreferences.edit();
                                 myEdit.putString("id",user.getString("id"));
+                               Log.i("iddddddddddd",user.getString("id"));
                                 myEdit.commit();
                                 Intent z = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(z);

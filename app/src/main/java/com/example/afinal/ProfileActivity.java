@@ -36,8 +36,8 @@ import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    String URL = R.string.url+"/user/";
-    String URL1 = R.string.url+"/usercar/";
+    String URL = "http://192.168.220.207:8000/api/user/";
+    String URL1 = "http://192.168.220.207:8000/api/usercar/";
     EditText name;
     EditText email;
     EditText phone;
@@ -45,7 +45,7 @@ public class ProfileActivity extends AppCompatActivity {
     EditText nid;
     EditText address;
     EditText dob;
-TextView back;
+    TextView back;
     EditText carnum;
     EditText category;
     EditText type;
@@ -69,18 +69,18 @@ TextView back;
 //        category = (EditText) findViewById(R.id.category);
 //        type = (EditText) findViewById(R.id.type);
 //        color = (EditText) findViewById(R.id.color);
-       back = (TextView) findViewById(R.id.back);
+        back = (TextView) findViewById(R.id.back);
 
 
-        tabLayout=(TabLayout)findViewById(R.id.tabLayout);
-        viewPager=(ViewPager)findViewById(R.id.viewPager);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
         tabLayout.addTab(tabLayout.newTab().setText("Personal Info"));
         tabLayout.addTab(tabLayout.newTab().setText("Car Info"));
         tabLayout.addTab(tabLayout.newTab().setText("Registrations"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final MyAdapter adapter = new MyAdapter(this,getSupportFragmentManager(), tabLayout.getTabCount());
+        final MyAdapter adapter = new MyAdapter(this, getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -114,12 +114,6 @@ TextView back;
                 startActivity(intent);
             }
         });
-
-
-
-
-
-
 
 
 //

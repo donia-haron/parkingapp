@@ -103,7 +103,7 @@
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:rowCount="4"
-                android:textAlignment="center"></GridView>
+                android:textAlignment="center"/>
 
 
         </LinearLayout>

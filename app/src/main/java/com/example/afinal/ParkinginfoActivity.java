@@ -24,13 +24,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ParkinginfoActivity extends AppCompatActivity {
-    String URL = R.string.url+"/parkingspace/";
+    String URL = "http://192.168.220.207:8000/api/parkingspace/";
     TextView name;
     TextView location;
     TextView capacity;
     TextView category;
     TextView description;
     TextView fees;
+    String capacity1;
 ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ ImageView img;
                             String category1 = parking.getString("category");
                             category.setText(category1);
                             String levels1 = parking.getString("levels");
-                            String capacity1 = parking.getString("capacity");
+                             capacity1 = parking.getString("capacity");
                             capacity.setText(capacity1);
                             String imgg = parking.getString("img");
 
@@ -106,6 +107,8 @@ ImageView img;
         Intent intent = new Intent(getApplicationContext(), PredictionActivity.class);
         int id = (int) getIntent().getSerializableExtra("parkingspace");
         intent.putExtra("parkingspaceidd",id);
+        int capacity=Integer.parseInt(capacity1);
+        intent.putExtra("capacity",capacity);
         startActivity(intent);
 
     }
